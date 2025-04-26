@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+    <body layout:fragment="body">
+        <div class="container mt-5">
+            <h2 class="text-center mb-4">Carga masiva</h2>
+            <div class="card shadow-sm p-4">
+                <form th:action="@{/Usuario/CargaMasiva}" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="fileInput" class="form-label">Selecciona un tipo de archivo</label>
+                        <div class="d-flex align-items-center">
+                            <a id ="buttonTxT"class="btn btn-primary me-3" type="button">TXT</a>
+                            <a id ="buttonXLSX"class="btn btn-success me-3" type="button">EXCEL</a>
+                        </div>
+                        <br>
+                        <div class="mb-3">
+                            <input type="file" name="archivo" class="form-control" id="inputFile" accept=".txt" hidden>
+                        </div>
+                    </div>
+                    <button  id="submitFile" type="submit" class="btn btn-warning w-100">Enviar</button>
+
+                    <div th:if="${listaErrores != null}">
+                        <div class="row mb-4" th:if="${!listaErrores.isEmpty()}">
+                            <h4 class="text-danger">Errores encontrados</h4>
+                            <table class="table table-bordered table-striped table-hover" id="tablaError" style="text-align: center; vertical-align: middle">
+                                <thead>
+                                    <tr>
+                                        <th class="col-4">Fila</th>
+                                        <th class="col-4">Contenido</th> 
+                                        <th class="col-4">Error</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="error : ${listaErrores}">
+                                        <td th:text="${error.Fila}"></td> 
+                                        <td th:text="${error.Mensaje}"></td> 
+                                        <td th:text="${error.Descripcion}"></td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row mt-4" th:unless="${!listaErrores.isEmpty()}">
+                            <div class="col-12">
+                                <a th:href="@{/Usuario/Procesar}" class="btn btn-success w-100">Procesar</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                let tipoArchivo
+                $("#buttonTxT").click(function () {
+                    $("#inputFile").attr("hidden", false).attr("accept", ".txt");
+                    $("#submitFile").attr("hidden", false).css("background-color", "#0D65D9");
+                    $("#submitFile").attr("hidden", false).css("border-color", "#32A1E6");
+                    $("#submitFile").attr("hidden", false).css("color", "#FFFFFF");
+                    tipoArchivo = 'txt';
+                });
+                $("#buttonXLSX").click(function () {
+                    $("#inputFile").attr("hidden", false).attr("accept", ".xlsx");
+                    $("#submitFile").attr("hidden", false).css("background-color", "#1C8C4D");
+                    $("#submitFile").attr("hidden", false).css("border-color", "#32E656");
+                    $("#submitFile").attr("hidden", false).css("color", "#FFFFFF");
+                    tipoArchivo = 'xlsx';
+                });
+
+                $("#inputFile").change(function () {
+                    if (this.files.length > 0) {
+                        var nombreArchivo = this.files[0].name;
+                        var fileType = nombreArchivo.split('.').pop().toLowerCase();
+                        if (fileType !== tipoArchivo) {
+
+                            alert("Por favor seleccione un archivo " + tipoArchivo.toUpperCase() + " correcto.");
+                            this.value = "";
+                        }
+                    }
+                });
+                $("#submitFile").click(function (event) {
+                    if ($("#inputFile").val() == '') {
+                        alert("Por favor selecciona un archivo.");
+                        event.preventDefault();
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
