@@ -54,6 +54,9 @@ public class Usuario {
     @Column(name="fechanacimiento")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date FechaNacimiento;
+    
+    @Column(name="estatus")
+    private String Estatus;
 
     public int getIdUsuario() {
         return IdUsuario;
@@ -158,5 +161,14 @@ public class Usuario {
     public void setCelular(String Celular) {
         this.Celular = Celular;
     }
+
+    public String getEstatus() {
+        return Estatus;
+    }
+
+    public void setEstatus(String Estatus) {
+        this.Estatus = Estatus;
+    }
+    
 
 }

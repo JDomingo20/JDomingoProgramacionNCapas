@@ -20,6 +20,9 @@
                 </li>
             </ul>
         </div>
+        <form method="POST" th:action="@{/logout}" style="margin-left: auto;">
+            <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+        </form>
     </nav>
     <br>
     <body layout:fragment = "body">

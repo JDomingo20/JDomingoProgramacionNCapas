@@ -259,7 +259,7 @@
                 $("#paisddl").change(function () {
                     $.ajax({
                         type: 'GET',
-                        url: "/Usuario/EstadoByIdPais/" + $("#paisddl").val(),
+                        url: "http://localhost:8081/estadoapi/byidpais/" + $("#paisddl").val(),
                         datatype: "json",
                         success: function (data, textStatus, jqXHR) {
                             $("#estadoddl").empty();
@@ -276,7 +276,7 @@
                 $("#estadoddl").change(function () {
                     $.ajax({
                         type: 'GET',
-                        url: "/Usuario/MunicipioByIdEstado/" + $("#estadoddl").val(),
+                        url: "http://localhost:8081/municipioapi/byidestado/" + $("#estadoddl").val(),
                         datatype: "json",
                         success: function (data, textStatus, jqXHR) {
                             $("#municipioddl").empty();

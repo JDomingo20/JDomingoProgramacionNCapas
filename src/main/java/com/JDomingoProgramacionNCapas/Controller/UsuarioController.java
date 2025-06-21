@@ -79,15 +79,15 @@ public class UsuarioController {
     @GetMapping("/Procesar")
     public String ProcesarArchivo(HttpSession session) {
         String absolutePath = session.getAttribute("urlFile").toString();
-        
+
         List<UsuarioDireccion> listaUsuarios = LecturaArchivoTXT(new File(absolutePath));
-        
+
         for (UsuarioDireccion usuarioDireccion : listaUsuarios) {
             usuarioDAOImplementation.Add(usuarioDireccion);
         }
-        
+
         session.removeAttribute("urlFile");
-        
+
         System.out.println("");
         return "redirect:/Usuario/CargaMasiva";
     }
@@ -247,7 +247,7 @@ public class UsuarioController {
     @GetMapping
     public String Index(Model model) {
         Result result = usuarioDAOImplementation.GetAll();
-        Result resultJPA =usuarioDAOImplementation.GetAllJPA();
+        Result resultJPA = usuarioDAOImplementation.GetAllJPA();
         Result resultRol = rolDAOImplementation.GetAll();
         Usuario usuarioBusqueda = new Usuario();
         usuarioBusqueda.Rol = new Rol();
@@ -321,7 +321,6 @@ public class UsuarioController {
             usuarioDireccion.Usuario.setIdUsuario(IdUsuario);
             usuarioDireccion.Direccion = new Direccion();
             usuarioDireccion.Direccion.setIdDireccion(IdDireccion);
-
             usuarioDireccion.Direccion = (Direccion) direccionDAOImplementation.DireccionesByIdDireccion(IdDireccion).object;
             model.addAttribute("usuarioDireccion", usuarioDireccion);
             model.addAttribute("paises", paisDAOImplementation.GetAll().correct ? paisDAOImplementation.GetAll().object : null);
@@ -330,20 +329,28 @@ public class UsuarioController {
         return "FormUsuario";
     }
 
+    @GetMapping("/DeleteDireccion")
+    public String DeleteDireccion(@RequestParam int IdDireccion) {
+        usuarioDAOImplementation.DireccionDeleteJPA(IdDireccion);
+        System.out.println("");
+        return "redirect:/Usuario";
+    }
+
     @PostMapping("Form")
     public String Form(@Valid @ModelAttribute UsuarioDireccion usuarioDireccion, BindingResult BindigResult, Model model) {
 
         if (usuarioDireccion.Usuario.getIdUsuario() == 0) { //Agregar
             System.out.println("Agregando usuario y direccion");
             usuarioDireccion.Usuario.setFechaNacimiento(new Date());
-            usuarioDAOImplementation.Add(usuarioDireccion);
+            usuarioDAOImplementation.AddJPA(usuarioDireccion);
         } else {
             if (usuarioDireccion.Direccion.getIdDireccion() == -1) { //Editar usuario
                 usuarioDAOImplementation.UsuarioUpdate(usuarioDireccion.Usuario);
             } else if (usuarioDireccion.Direccion.getIdDireccion() == 0) { //Agregar direccion
+                usuarioDAOImplementation.DireccionAddJPA(usuarioDireccion);
                 System.out.println("Agregando direccion");
             } else {
-                usuarioDAOImplementation.DireccionUpdate(usuarioDireccion);
+                usuarioDAOImplementation.DireccionUpdateJPA(usuarioDireccion);
                 System.out.println("Editando direccion");//Editar direccion
             }
         }

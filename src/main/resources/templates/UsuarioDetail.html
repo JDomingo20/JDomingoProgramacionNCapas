@@ -44,7 +44,7 @@
                                                 <a th:href="@{/Usuario/formEditable?IdUsuario=}+${usuarioDirecciones.Usuario.IdUsuario}+'&IdDireccion='+${direccion.IdDireccion}" class="btn btn-primary">
                                                     <i class="bi bi-pencil-square"></i> Editar
                                                 </a>
-                                                <a href="#" class="btn btn-danger">
+                                                <a th:href="@{/Usuario/DeleteDireccion?IdDireccion=}+${direccion.IdDireccion}" class="btn btn-danger">
                                                     <i class="bi bi-trash"></i> Eliminar
                                                 </a>
                                             </td>
@@ -57,7 +57,5 @@
                 </div>
             </div>
         </div>
-
-
     </body>
 </html>

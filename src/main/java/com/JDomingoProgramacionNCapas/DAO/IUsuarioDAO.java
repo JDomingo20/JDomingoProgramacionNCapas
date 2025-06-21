@@ -16,4 +16,10 @@ public interface IUsuarioDAO {
     Result GetAllDinamicoNombre(Usuario usuario);
     Result GetAllJPA();
     Result AddJPA(UsuarioDireccion usuarioDireccion);
+    Result UsuarioUpdateJPA(Usuario usuario);
+    Result DeleteJPA(int IdUsuario);
+    Result DireccionUpdateJPA(UsuarioDireccion usuarioDireccion);
+    Result DireccionDeleteJPA(int IdDireccion);
+    Result DireccionAddJPA(UsuarioDireccion usuarioDireccion);
+    Result UsuaDirByIdJPA(int IdUsuario);
 }

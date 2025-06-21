@@ -50,6 +50,8 @@ public class Usuario {
         this.Rol = Rol;
     }
 
+    
+
     public void setIdUsuario(int IdUsuario) {
         this.IdUsuario = IdUsuario;
     }

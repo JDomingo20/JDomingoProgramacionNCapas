@@ -21,6 +21,8 @@ public class Rol {
     public void setNombre(String Nombre) {
         this.Nombre = Nombre;
     }
+
+  
     
     
 }
